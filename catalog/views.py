@@ -81,7 +81,7 @@ def renew_book_librarian(request, pk):
             book_inst.save()
 
             # redirect to a new URL:
-            return HttpResponseRedirect(reverse('/catalog') )
+            return HttpResponseRedirect(reverse('all_borrowed') )
 
     # If this is a GET (or any other method) create the default form.
     else:
@@ -106,3 +106,21 @@ class AuthorUpdate(UpdateView):
 class AuthorDelete(DeleteView):
     model = Author
     success_url = reverse_lazy('authors')
+
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from .models import Book, BookInstance
+from django.views.generic import ListView
+
+class BorrowedBooksListView(PermissionRequiredMixin, ListView):
+    model = BookInstance
+    template_name = 'catalog/all_borrowed.html'
+    permission_required = 'library.can_mark_returned'
+
+    def get_queryset(self):
+        # Получаем все взятые книги
+        return BookInstance.objects.filter(status='o').select_related('book', 'borrower')
+
+    def all_borrowed(request):
+        borrowed_books = BookInstance.objects.filter(status='o').select_related('book', 'borrower')
+        print(request)
+        return render(request, 'catalog/all_borrowed.html', {'borrowed_books': borrowed_books})

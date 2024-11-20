@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h2>Заимствованные книги</h2>
+        {% if borrowed_books %}
+    <ul>
+    {% for book_instance in borrowed_books %}
+    <li>{{ book.title }} - Заёмщик: {{ book_instance.borrower.username }}</li>
+    {% endfor %}
+    </ul>
+    {% else %}
+    <p>Нет заимствованных книг.</p>
+    {% endif %}
+{% endblock %}

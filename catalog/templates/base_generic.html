@@ -40,7 +40,9 @@
                         <button type="submit">Login</button>
                     </form>
                 </li>
-                {% endif %}
+                {% endif %} <br><br>
+                <li><p>Staff</p></li>
+                <li><a href="{% url  'all_borrowed' %}">All borrowed</a></li>
             </ul>
             {% endblock %}
         </div>
