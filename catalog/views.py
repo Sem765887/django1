@@ -124,3 +124,7 @@ class BorrowedBooksListView(PermissionRequiredMixin, ListView):
         borrowed_books = BookInstance.objects.filter(status='o').select_related('book', 'borrower')
         print(request)
         return render(request, 'catalog/all_borrowed.html', {'borrowed_books': borrowed_books})
+
+def image_list(request):
+    images = Book.objects.cover()
+    return render(request, 'book_detail.html', {'images': images})

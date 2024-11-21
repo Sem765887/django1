@@ -32,6 +32,7 @@ class Book(models.Model):
     # ManyToManyField used because genre can contain many books. Books can cover many genres.
     # Genre class has already been defined so we can specify the object above.
     is_borrowed = models.BooleanField(default=False)
+    cover = models.ImageField(upload_to='images/', null=True, blank=True)
 
     def __str__(self):
         """
